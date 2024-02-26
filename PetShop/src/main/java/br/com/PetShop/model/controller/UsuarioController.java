@@ -74,7 +74,7 @@ public class UsuarioController {
     }
     
     @PutMapping("/editar/{id}")
-    public ResponseEntity<String> editarUsuario(@PathVariable Integer id, @Validated @RequestBody Usuario usuarioAlterado) {
+    public ResponseEntity<Usuario> editarUsuario(@PathVariable Integer id, @Validated @RequestBody Usuario usuarioAlterado) {
         // Verificar se o usuário existe
         Usuario usuarioExistente = usuarioService.obterUsuarioPorId(id);
         if (usuarioExistente != null) {
@@ -83,12 +83,14 @@ public class UsuarioController {
             usuarioExistente.setEmail(usuarioAlterado.getEmail());
             usuarioExistente.setSenha(usuarioAlterado.getSenha());
             usuarioExistente.setCelular(usuarioAlterado.getCelular());
-            usuarioExistente.setAdmin(usuarioAlterado.isAdmin());
 
             // Salva as alterações no banco de dados
             usuarioService.incluir(usuarioExistente);
-            return ResponseEntity.ok("Usuário alterado com sucesso!");
+            
+            // Retorna o usuário alterado como JSON com status 200 (OK)
+            return ResponseEntity.ok(usuarioExistente);
         } else {
+            // Se o usuário não existir, retorna um status 404 (Not Found)
             return ResponseEntity.notFound().build();
         }
     }
