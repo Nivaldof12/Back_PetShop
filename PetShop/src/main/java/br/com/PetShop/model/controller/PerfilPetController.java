@@ -64,7 +64,7 @@ public class PerfilPetController {
     }
     
     @PutMapping("/editar/{id}")
-    public ResponseEntity<String> editarPerfilPet(@PathVariable Integer id, @Validated @RequestBody PerfilPet perfilPetAlterado) {
+    public ResponseEntity<PerfilPet> editarPerfilPet(@PathVariable Integer id, @Validated @RequestBody PerfilPet perfilPetAlterado) {
         // Verificar se o perfil de pet existe
         PerfilPet perfilPetExistente = perfilPetService.obterPerfilPorId(id);
         if (perfilPetExistente != null) {
@@ -75,7 +75,9 @@ public class PerfilPetController {
 
             // Salva as alterações no banco de dados
             perfilPetService.incluir(perfilPetExistente);
-            return ResponseEntity.ok("Perfil de pet alterado com sucesso!");
+            
+            // Retorna o usuário alterado como JSON com status 200 (OK)
+            return ResponseEntity.ok(perfilPetExistente);
         } else {
             return ResponseEntity.notFound().build();
         }
