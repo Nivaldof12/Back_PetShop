@@ -1,7 +1,6 @@
 package br.com.PetShop.model.domain;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "agendamento")
@@ -16,20 +15,18 @@ public class Agendamento {
     private PerfilPet perfilPet;
 
     @Column(nullable = false)
-    private LocalDateTime dia;
+    private String dia;
 
     @Column(nullable = false)
     private String tipo;
 
-    @Column(length = 1000)
+    @Column(nullable = false)
     private String observacao;
-
-    // Construtores, getters e setters
 
     public Agendamento() {
     }
 
-    public Agendamento(PerfilPet perfilPet, LocalDateTime dia, String tipo, String observacao) {
+    public Agendamento(PerfilPet perfilPet, String dia, String tipo, String observacao) {
         this.perfilPet = perfilPet;
         this.dia = dia;
         this.tipo = tipo;
@@ -52,11 +49,11 @@ public class Agendamento {
 		this.perfilPet = perfilPet;
 	}
 
-	public LocalDateTime getDia() {
+	public String getDia() {
 		return dia;
 	}
 
-	public void setDia(LocalDateTime dia) {
+	public void setDia(String dia) {
 		this.dia = dia;
 	}
 

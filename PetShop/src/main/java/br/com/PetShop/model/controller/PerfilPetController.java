@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import br.com.PetShop.model.domain.PerfilPet;
 import br.com.PetShop.model.domain.Usuario;
+import br.com.PetShop.model.repository.PerfilPetRepository;
 import br.com.PetShop.model.service.PerfilPetService;
 import br.com.PetShop.model.service.UsuarioService;
 
@@ -26,6 +30,9 @@ public class PerfilPetController {
 
     @Autowired
     private PerfilPetService perfilPetService;
+    
+    @Autowired
+    private PerfilPetRepository perfilPetRepository;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -50,6 +57,13 @@ public class PerfilPetController {
     public ResponseEntity<Void> excluirPerfilPet(@PathVariable Integer id) {
         perfilPetService.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping
+    public List<PerfilPet> listarPerfilPets() {
+        Iterable<PerfilPet> perfilPetsIterable = perfilPetRepository.findAll();
+        return StreamSupport.stream(perfilPetsIterable.spliterator(), false)
+                            .collect(Collectors.toList());
     }
 
     @GetMapping("/usuario/{id}")

@@ -20,7 +20,7 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @PostMapping("/incluir")
-    public ResponseEntity<Agendamento> criarAgendamento(@RequestBody Agendamento agendamento) {
+    public ResponseEntity<Agendamento> incluirAgendamento(@RequestBody Agendamento agendamento) {
         Agendamento novoAgendamento = agendamentoService.incluirAgendamento(agendamento);
         return new ResponseEntity<>(novoAgendamento, HttpStatus.CREATED);
     }
