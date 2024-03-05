@@ -19,18 +19,21 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
 
+    // Endpoint para incluir um novo agendamento
     @PostMapping("/incluir")
     public ResponseEntity<Agendamento> incluirAgendamento(@RequestBody Agendamento agendamento) {
         Agendamento novoAgendamento = agendamentoService.incluirAgendamento(agendamento);
         return new ResponseEntity<>(novoAgendamento, HttpStatus.CREATED);
     }
 
+    // Endpoint para obter todos os agendamentos
     @GetMapping("/todos")
     public ResponseEntity<List<Agendamento>> obterTodosAgendamentos() {
         List<Agendamento> agendamentos = agendamentoService.obterTodosAgendamentos();
         return new ResponseEntity<>(agendamentos, HttpStatus.OK);
     }
 
+    // Endpoint para obter um agendamento por ID
     @GetMapping("/{id}")
     public ResponseEntity<Agendamento> obterAgendamentoPorId(@PathVariable Long id) {
         Optional<Agendamento> agendamento = agendamentoService.obterAgendamentoPorId(id);
@@ -38,6 +41,7 @@ public class AgendamentoController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // Endpoint para editar um agendamento existente
     @PutMapping("/editar/{id}")
     public ResponseEntity<String> editarAgendamento(@PathVariable Long id, @Validated @RequestBody Agendamento novoAgendamento) {
         // Verificar se o agendamento existe
@@ -59,6 +63,7 @@ public class AgendamentoController {
     }
 
 
+    // Endpoint para excluir um agendamento
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirAgendamento(@PathVariable Long id) {
         agendamentoService.excluirAgendamento(id);

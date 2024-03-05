@@ -37,6 +37,7 @@ public class PerfilPetController {
     @Autowired
     private UsuarioService usuarioService;
 
+    // Endpoint para incluir um novo perfil de pet
     @PostMapping("/incluir")
     public ResponseEntity<PerfilPet> incluirPerfilPet(@RequestBody PerfilPet perfilPet) {
         // Verificar se o usuário existe
@@ -53,12 +54,14 @@ public class PerfilPetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoPerfilPet);
     }
 
+    // Endpoint para excluir um perfil de pet
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirPerfilPet(@PathVariable Integer id) {
         perfilPetService.excluir(id);
         return ResponseEntity.noContent().build();
     }
     
+    // Endpoint para obter todos os perfis de pet
     @GetMapping
     public List<PerfilPet> listarPerfilPets() {
         Iterable<PerfilPet> perfilPetsIterable = perfilPetRepository.findAll();
@@ -66,6 +69,7 @@ public class PerfilPetController {
                             .collect(Collectors.toList());
     }
 
+    // Endpoint para obter todos os perfis de pet de um usuário específico
     @GetMapping("/usuario/{id}")
     public ResponseEntity<Collection<PerfilPet>> obterPerfisPorUsuario(@PathVariable Integer id) {
         Usuario usuario = usuarioService.obterUsuarioPorId(id);
@@ -77,6 +81,7 @@ public class PerfilPetController {
         return ResponseEntity.ok(perfis);
     }
     
+    // Endpoint para editar um perfil de pet existente
     @PutMapping("/editar/{id}")
     public ResponseEntity<PerfilPet> editarPerfilPet(@PathVariable Integer id, @Validated @RequestBody PerfilPet perfilPetAlterado) {
         // Verificar se o perfil de pet existe

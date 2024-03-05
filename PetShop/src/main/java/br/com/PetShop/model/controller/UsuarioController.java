@@ -25,6 +25,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     
+    // Endpoint para autenticar um usuário
     @PostMapping("/autenticar")
     public ResponseEntity<Usuario> autenticarUsuario(@RequestBody Usuario usuario) {
         Usuario usuarioAutenticado = usuarioService.autenticar(usuario);
@@ -35,24 +36,28 @@ public class UsuarioController {
         }
     }
     
+    // Endpoint para incluir um novo usuário
     @PostMapping("/incluir")
     public ResponseEntity<Usuario> incluirUsuario(@RequestBody Usuario usuario) {
         Usuario novoUsuario = usuarioService.incluir(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
     
+    // Endpoint para excluir um usuário
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirUsuario(@PathVariable Integer id) {
         usuarioService.excluir(id);
         return ResponseEntity.noContent().build();
     }
     
+    // Endpoint para obter todos os usuários
     @GetMapping
     public ResponseEntity<Collection<Usuario>> obterTodosUsuarios() {
         Collection<Usuario> usuarios = usuarioService.obterLista();
         return ResponseEntity.ok(usuarios);
     }
     
+    // Endpoint para obter um usuário por ID
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> obterUsuarioPorId(@PathVariable Integer id) {
         Usuario usuario = usuarioService.obterUsuarioPorId(id);
@@ -63,6 +68,7 @@ public class UsuarioController {
         }
     }
     
+    // Endpoint para obter um usuário por e-mail
     @GetMapping("/buscarPorEmail/{email}")
     public ResponseEntity<Usuario> obterUsuarioPorEmail(@PathVariable String email) {
         Usuario usuario = usuarioService.obterUsuarioPorEmail(email);
@@ -73,6 +79,7 @@ public class UsuarioController {
         }
     }
     
+    // Endpoint para editar um usuário existente
     @PutMapping("/editar/{id}")
     public ResponseEntity<Usuario> editarUsuario(@PathVariable Integer id, @Validated @RequestBody Usuario usuarioAlterado) {
         // Verificar se o usuário existe
