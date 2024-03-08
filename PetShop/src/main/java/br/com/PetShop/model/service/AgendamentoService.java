@@ -17,6 +17,11 @@ public class AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
+    
+    @Autowired
+    public AgendamentoService(AgendamentoRepository agendamentoRepository) {
+        this.agendamentoRepository = agendamentoRepository;
+    }
 
     public Agendamento incluirAgendamento(Agendamento agendamento) {
         return agendamentoRepository.save(agendamento);
@@ -38,5 +43,10 @@ public class AgendamentoService {
 
     public void excluirAgendamento(Long id) {
         agendamentoRepository.deleteById(id);
+    }
+    
+    // Método para contar os agendamentos no mesmo dia e hora
+    public long contarAgendamentosNoMesmoDiaEHora(String dia, String observacao) {
+        return agendamentoRepository.countByDiaAndObservacao(dia, observacao);
     }
 }
