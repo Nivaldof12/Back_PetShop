@@ -22,17 +22,10 @@ public class AgendamentoController {
     // Endpoint para incluir um novo agendamento
     @PostMapping("/incluir")
     public ResponseEntity<Agendamento> incluirAgendamento(@RequestBody Agendamento agendamento) {
-        // Verificar se já existem 3 agendamentos para o mesmo dia e hora
-        long numeroAgendamentos = agendamentoService.contarAgendamentosNoMesmoDiaEHora(agendamento.getDia(), agendamento.getObservacao());
-        
-        // Se já existirem 3 agendamentos para o mesmo dia e hora, retornar uma resposta adequada
-        if (numeroAgendamentos >= 3) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Por exemplo, você pode retornar um código de status 400 indicando uma solicitação inválida
-        }
-        
-        // Caso contrário, incluir o novo agendamento normalmente
+
         Agendamento novoAgendamento = agendamentoService.incluirAgendamento(agendamento);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoAgendamento);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(novoAgendamento);
     }
 
     // Endpoint para obter todos os agendamentos

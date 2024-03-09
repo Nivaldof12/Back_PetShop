@@ -24,6 +24,22 @@ public class AgendamentoService {
     }
 
     public Agendamento incluirAgendamento(Agendamento agendamento) {
+        // Calcula horaInicio e horaFim com base na observação
+        String observacao = agendamento.getObservacao();
+        double horaInicio = convertStringToHours(observacao);
+        double horaFim = horaInicio + 1; // Adiciona uma hora ao horaInicio
+
+        // Verifica se já existem 3 agendamentos no mesmo dia entre horaInicio e horaFim
+        String dia = agendamento.getDia();
+        if (contarAgendamentosNoMesmoDiaEHora(dia, horaInicio, horaFim) >= 3) {
+            throw new RuntimeException("Já existem 3 agendamentos no mesmo dia entre os horários fornecidos");
+        }
+
+        // Define os valores calculados no agendamento
+        agendamento.setHoraInicio(horaInicio);
+        agendamento.setHoraFim(horaFim);
+
+        // Salva o agendamento
         return agendamentoRepository.save(agendamento);
     }
 
@@ -45,8 +61,21 @@ public class AgendamentoService {
         agendamentoRepository.deleteById(id);
     }
     
-    // Método para contar os agendamentos no mesmo dia e hora
-    public long contarAgendamentosNoMesmoDiaEHora(String dia, String observacao) {
-        return agendamentoRepository.countByDiaAndObservacao(dia, observacao);
+    // Método para contar agendamentos no mesmo dia entre horaInicio e horaFim
+    private int contarAgendamentosNoMesmoDiaEHora(String dia, double horaInicio, double horaFim) {
+        // Consulta o banco de dados para contar os agendamentos
+        return agendamentoRepository.countByDiaAndHoraInicioBetween(dia, horaInicio, horaFim);
     }
+    
+	// Método que converte String para Hora
+	private double convertStringToHours(String time) {
+		if (time == null || time.isEmpty()) {
+			return 0;
+		}
+
+		String[] parts = time.split(":");
+		int hours = Integer.parseInt(parts[0]);
+		int minutes = Integer.parseInt(parts[1]);
+		return hours + minutes / 60.0;
+	}
 }

@@ -22,6 +22,10 @@ public class Agendamento {
 
     @Column(nullable = false)
     private String observacao;
+    
+    private Double horaInicio;
+
+    private Double horaFim;
 
     public Agendamento() {
     }
@@ -71,5 +75,22 @@ public class Agendamento {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
-	}  
+	}
+
+	public Double getHoraInicio() {
+		return horaInicio;
+	}
+
+	public void setHoraInicio(Double horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+	public Double getHoraFim() {
+		return horaFim;
+	}
+
+	public void setHoraFim(Double horaFim) {
+		this.horaFim = horaFim;
+	}
+	
 }
