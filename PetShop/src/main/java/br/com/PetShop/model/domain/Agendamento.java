@@ -23,8 +23,10 @@ public class Agendamento {
     @Column(nullable = false)
     private String observacao;
     
+    @Column(nullable = false)
     private Double horaInicio;
 
+    @Column(nullable = false)
     private Double horaFim;
 
     public Agendamento() {

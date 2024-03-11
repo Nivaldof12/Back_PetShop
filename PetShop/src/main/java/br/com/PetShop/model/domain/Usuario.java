@@ -26,6 +26,7 @@ public class Usuario {
 	@Column(nullable = false)
 	private String celular;
 	
+	@Column(nullable = false)
 	private boolean admin;
 	
 	public Usuario() {

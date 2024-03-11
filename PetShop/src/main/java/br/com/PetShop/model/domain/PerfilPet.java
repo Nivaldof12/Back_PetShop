@@ -18,8 +18,10 @@ public class PerfilPet {
     @Column(nullable = false)
     private String nome;
     
+    @Column(nullable = false)
     private String raca;
     
+    @Column(nullable = false)
     private int idade;
     
     @ManyToOne
