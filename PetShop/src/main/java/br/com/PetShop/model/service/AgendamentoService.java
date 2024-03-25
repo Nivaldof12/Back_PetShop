@@ -1,8 +1,9 @@
 package br.com.PetShop.model.service;
 
 import br.com.PetShop.model.domain.Agendamento;
-
+import br.com.PetShop.model.domain.Funcionario;
 import br.com.PetShop.model.repository.AgendamentoRepository;
+import br.com.PetShop.model.repository.FuncionarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class AgendamentoService {
     private AgendamentoRepository agendamentoRepository;
     
     @Autowired
+    private FuncionarioRepository funcionarioRepository;
+    
+    @Autowired
     public AgendamentoService(AgendamentoRepository agendamentoRepository) {
         this.agendamentoRepository = agendamentoRepository;
     }
@@ -29,10 +33,15 @@ public class AgendamentoService {
         double horaInicio = convertStringToHours(observacao);
         double horaFim = horaInicio + 1; // Adiciona uma hora ao horaInicio
 
-        // Verifica se já existem 3 agendamentos no mesmo dia entre horaInicio e horaFim
+        // Obtém o número de funcionários do registro com ID 1
+        int numeroFuncionarios = funcionarioRepository.findById(1L)
+                                                      .map(Funcionario::getNumeroFuncionarios)
+                                                      .orElse(0);
+
+        // Verifica se já existem 'numeroFuncionarios' agendamentos no mesmo dia entre horaInicio e horaFim
         String dia = agendamento.getDia();
-        if (contarAgendamentosNoMesmoDiaEHora(dia, horaInicio, horaFim) >= 3) {
-            throw new RuntimeException("Já existem 3 agendamentos no mesmo dia entre os horários fornecidos");
+        if (contarAgendamentosNoMesmoDiaEHora(dia, horaInicio, horaFim) >= numeroFuncionarios) {
+            throw new RuntimeException("Já existem " + numeroFuncionarios + " agendamentos no mesmo dia entre os horários fornecidos");
         }
 
         // Define os valores calculados no agendamento
